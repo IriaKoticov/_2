@@ -5,32 +5,51 @@
 #include <vector>
 #include <fstream>
 
+const int N = 3;
+
+int search_n_cube_in_vector(std::vector<int> vtmp, int n){
+    int end_flag = 0;
+    for (int i: vtmp){
+            if (i%(n*n*n) == 0){
+               end_flag = 1;
+               break;
+            };
+        }
+    return end_flag;
+}
+
+
+
 int main() {
 
-    int n;
-    std::cout << "input your n: ";
-    std::cin >> n;
     std::fstream fd("numbers");
-    std::vector<int> rezlist;
+    std::vector<int> tmp_vector;
+
     if (fd.is_open()){
         std::string tmp;
         while (fd>>tmp){
             int tmpnum = std::stoi(tmp);
-            if (tmpnum%(n*n*n) == 0){
-                rezlist.push_back(tmpnum);
-            };
+            tmp_vector.push_back(tmpnum);
+        };
+    }
+
+    switch (search_n_cube_in_vector(tmp_vector, N)) {
+        case 1: {
+
+            std::cout<< "Есть кратное кубу числа: " << N << std::endl ;
+            break;
         }
-    } else {
-        std::cout << "File not found" << std::endl;
-        std::cerr << "File don`t open" << std::endl;
+        case 0: {
+
+            std::cout<< "Нет кратного кубу числа: " << N << std::endl ;
+
+            break;
+
+        }
+        default:{
+            break;
+        }
     }
-    if (!rezlist.empty()){
-    std::cout << "The number increases by n³ : " << n*n*n << std::endl;
-    for (int i : rezlist){
-    std::cout << i << std::endl;
-    }
-    } else {
-        std::cout << "massive is empty" << std::endl;
-    }
+
     return 0;
 }
